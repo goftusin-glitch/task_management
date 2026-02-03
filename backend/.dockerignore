@@ -1,0 +1,26 @@
+# Dependencies
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# IDE
+.vscode/
+.idea/
+
+# Git
+.git/
+.gitignore
+
+# Logs
+*.log
+
+# Local config
+.env
+.env.local
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
