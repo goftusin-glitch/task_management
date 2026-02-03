@@ -4,17 +4,14 @@ services:
     image: mysql:8.0
     container_name: task_management_db
     restart: unless-stopped
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-rootpassword123}
-      MYSQL_DATABASE: ${MYSQL_DATABASE:-goftustask}
-      MYSQL_USER: ${MYSQL_USER:-taskuser}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-taskpassword123}
+    env_file:
+      - .env
     ports:
-      - "3307:3306"
+      - "${DB_PORT:-3307}:3306"
     volumes:
       - mysql_data:/var/lib/mysql
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD:-rootpassword123}"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD}"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -29,13 +26,10 @@ services:
       dockerfile: Dockerfile
     container_name: task_management_backend
     restart: unless-stopped
-    environment:
-      DATABASE_URL: mysql+pymysql://${MYSQL_USER:-taskuser}:${MYSQL_PASSWORD:-taskpassword123}@db:3306/${MYSQL_DATABASE:-goftustask}
-      SECRET_KEY: ${SECRET_KEY:-your-super-secret-key-change-in-production}
-      ALGORITHM: HS256
-      ACCESS_TOKEN_EXPIRE_MINUTES: 525600
+    env_file:
+      - .env
     ports:
-      - "8000:8000"
+      - "${BACKEND_PORT:-8000}:8000"
     depends_on:
       db:
         condition: service_healthy
@@ -49,8 +43,10 @@ services:
       dockerfile: Dockerfile
     container_name: task_management_frontend
     restart: unless-stopped
+    env_file:
+      - .env
     ports:
-      - "3000:80"
+      - "${FRONTEND_PORT:-3000}:80"
     depends_on:
       - backend
     networks:
