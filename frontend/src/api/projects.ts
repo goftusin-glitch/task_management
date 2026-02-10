@@ -42,7 +42,7 @@ export interface ProjectUpdate {
 }
 
 export const getProjects = async (): Promise<Project[]> => {
-    const response = await axiosInstance.get('/api/projects');
+    const response = await axiosInstance.get('/api/projects/');
     return response.data;
 };
 
@@ -52,7 +52,7 @@ export const getProject = async (id: number): Promise<Project> => {
 };
 
 export const createProject = async (data: ProjectCreate): Promise<Project> => {
-    const response = await axiosInstance.post('/api/projects', data);
+    const response = await axiosInstance.post('/api/projects/', data);
     return response.data;
 };
 

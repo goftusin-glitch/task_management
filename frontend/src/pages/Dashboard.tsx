@@ -42,7 +42,7 @@ const Dashboard: React.FC = () => {
     useEffect(() => {
         const fetchStats = async () => {
             try {
-                const response = await axiosInstance.get('/api/stats');
+                const response = await axiosInstance.get('/api/stats/');
                 setStats(response.data);
             } catch (error) {
                 console.error('Error fetching dashboard stats:', error);
