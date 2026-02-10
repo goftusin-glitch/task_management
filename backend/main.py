@@ -3,6 +3,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 from sqlalchemy.exc import OperationalError
+from sqlalchemy import text
 
 from database import engine, Base
 from routers import auth, users, clients, tasks, expenses, stats, projects
@@ -21,7 +22,7 @@ def wait_for_db(max_retries: int = 30, retry_interval: int = 2):
         try:
             # Try to connect to the database
             with engine.connect() as conn:
-                conn.execute("SELECT 1")
+                conn.execute(text("SELECT 1"))
             print("✓ Database connection established successfully!")
             return True
         except OperationalError as e:
