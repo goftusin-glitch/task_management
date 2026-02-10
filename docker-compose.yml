@@ -36,7 +36,7 @@ services:
     networks:
       - task_network
 
-  # React Frontend with Nginx
+  # React Frontend
   frontend:
     build:
       context: ./frontend
@@ -46,7 +46,7 @@ services:
     env_file:
       - .env
     ports:
-      - "${FRONTEND_PORT:-3000}:80"
+      - "${FRONTEND_PORT:-3000}:3000"
     depends_on:
       - backend
     networks:

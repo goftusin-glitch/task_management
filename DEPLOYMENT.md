@@ -151,14 +151,7 @@ app.add_middleware(
 
 ### 3. SSL/HTTPS Setup
 
-For production, add an SSL reverse proxy (Traefik or Nginx):
-
-```yaml
-# Add to docker-compose.yml
-reverse-proxy:
-  image: traefik:v2.10
-  # ... configure SSL with Let's Encrypt
-```
+For production, set up SSL reverse proxy on your VM using nginx or Traefik at the VM level, not in the Docker containers.
 
 ### 4. Backup Strategy
 
@@ -204,7 +197,7 @@ docker-compose up -d
 
 | Service  | Internal Port | External Port | URL                     |
 |----------|---------------|---------------|-------------------------|
-| Frontend | 80            | 3000          | http://localhost:3000   |
+| Frontend | 3000          | 3000          | http://localhost:3000   |
 | Backend  | 8000          | 8000          | http://localhost:8000   |
 | MySQL    | 3306          | 3307          | localhost:3307          |
 
@@ -221,6 +214,5 @@ task_management/
 │   ├── main.py            # FastAPI app entry
 │   └── seed.py            # Admin user seeding
 └── frontend/
-    ├── Dockerfile         # Frontend container config
-    └── nginx.conf         # Nginx configuration
+    └── Dockerfile         # Frontend container config
 ```

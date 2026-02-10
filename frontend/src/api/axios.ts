@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-// In Docker, nginx proxies /api/ to backend, so we use empty base URL
+// VM-level reverse proxy handles /api/ routing to backend
 // In development, we need the full backend URL
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
 
