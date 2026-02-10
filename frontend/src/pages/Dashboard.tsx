@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Typography, Paper, CircularProgress } from '@mui/material';
-import axiosInstance from '../api/axios';
+import { getDashboardStats, type DashboardStats } from '../api/stats';
 import BusinessIcon from '@mui/icons-material/Business';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import AssignmentIcon from '@mui/icons-material/Assignment';
@@ -9,14 +9,7 @@ import BookmarkIcon from '@mui/icons-material/Bookmark';
 import PeopleIcon from '@mui/icons-material/People';
 import { useAuth } from '../context/AuthContext';
 
-interface DashboardStats {
-    clients_count: number;
-    follow_ups_count: number;
-    clients_pending_count: number;
-    tasks_count: number;
-    tasks_pending_count: number;
-    users_count?: number;
-}
+
 
 const StatCard: React.FC<{ title: string; value: number; icon: React.ReactNode; color: string }> = ({ title, value, icon, color }) => (
     <Paper sx={{ p: 3, display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: '100%', flex: 1, minWidth: 200 }}>
@@ -42,8 +35,8 @@ const Dashboard: React.FC = () => {
     useEffect(() => {
         const fetchStats = async () => {
             try {
-                const response = await axiosInstance.get('/api/stats/');
-                setStats(response.data);
+                const data = await getDashboardStats();
+                setStats(data);
             } catch (error) {
                 console.error('Error fetching dashboard stats:', error);
             } finally {
